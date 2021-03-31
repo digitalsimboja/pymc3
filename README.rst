@@ -3,7 +3,7 @@
     :alt: PyMC3 logo
     :align: center
 
-|Build Status| |Coverage| |NumFOCUS_badge| |Binder| |Dockerhub|
+|Build Status| |Coverage| |NumFOCUS_badge| |Binder| |Dockerhub| |DOIzenodo|
 
 PyMC3 is a Python package for Bayesian statistical modeling and Probabilistic Machine Learning
 focusing on advanced Markov chain Monte Carlo (MCMC) and variational inference (VI)
@@ -14,18 +14,6 @@ Check out the `getting started guide <http://docs.pymc.io/notebooks/getting_star
 `interact with live examples <https://mybinder.org/v2/gh/pymc-devs/pymc3/master?filepath=%2Fdocs%2Fsource%2Fnotebooks>`__
 using Binder!
 For questions on PyMC3, head on over to our `PyMC Discourse <https://discourse.pymc.io/>`__ forum.
-
-The future of PyMC3 & Theano
-============================
-
-There have been many questions and uncertainty around the future of PyMC3 since Theano
-stopped getting developed by the original authors, and we started experiments with PyMC4.
-
-We are happy to announce that PyMC3 on Theano (which we are `developing further <https://github.com/pymc-devs/Theano-PyMC>`__)
-with a new JAX backend is the future. PyMC4 will not be developed further.
-
-See the `full announcement <https://pymc-devs.medium.com/the-future-of-pymc3-or-theano-is-dead-long-live-theano-d8005f8a0e9b>`__
-for more details.
 
 Features
 ========
@@ -39,7 +27,7 @@ Features
 -  **Variational inference**: `ADVI <http://www.jmlr.org/papers/v18/16-107.html>`__
    for fast approximate posterior estimation as well as mini-batch ADVI
    for large data sets.
--  Relies on `Theano-PyMC <https://theano-pymc.readthedocs.io/en/latest/>`__ which provides:
+-  Relies on `Aesara <https://aesara.readthedocs.io/en/latest/>`__ which provides:
     *  Computation optimization and dynamic C or JAX compilation
     *  Numpy broadcasting and advanced indexing
     *  Linear algebra operators
@@ -86,10 +74,16 @@ To install PyMC3 on your system, follow the instructions on the appropriate inst
 
 Citing PyMC3
 ============
+Please choose from the following:
 
-Salvatier J., Wiecki T.V., Fonnesbeck C. (2016) Probabilistic programming
-in Python using PyMC3. PeerJ Computer Science 2:e55
-`DOI: 10.7717/peerj-cs.55 <https://doi.org/10.7717/peerj-cs.55>`__.
+- |DOIpaper| *Probabilistic programming in Python using PyMC3*, Salvatier J., Wiecki T.V., Fonnesbeck C. (2016)
+- |DOIzenodo| A DOI for all versions.
+- DOIs for specific versions are shown on Zenodo and under `Releases <https://github.com/pymc-devs/pymc3/releases>`_
+
+.. |DOIpaper| image:: https://img.shields.io/badge/DOI-10.7717%2Fpeerj--cs.55-blue
+     :target: https://doi.org/10.7717/peerj-cs.55
+.. |DOIzenodo| image:: https://zenodo.org/badge/DOI/10.5281/zenodo.4603970.svg
+   :target: https://doi.org/10.5281/zenodo.4603970
 
 Contact
 =======

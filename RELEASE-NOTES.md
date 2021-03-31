@@ -1,19 +1,59 @@
 # Release Notes
 
-## PyMC3 vNext (3.11.1)
-
+## PyMC3 vNext (4.0.0)
 ### Breaking Changes
+- ⚠ Theano-PyMC has been replaced with Aesara, so all external references to `theano`, `tt`, and `pymc3.theanof` need to be replaced with `aesara`, `at`, and `pymc3.aesaraf` (see [4471](https://github.com/pymc-devs/pymc3/pull/4471)).
+- ArviZ `plots` and `stats` *wrappers* were removed. The functions are now just available by their original names (see [#4549](https://github.com/pymc-devs/pymc3/pull/4471) and `3.11.2` release notes).
+- ...
 
 ### New Features
-+ Automatic imputations now also work with `ndarray` data, not just `pd.Series` or `pd.DataFrame` (see[#4439](https://github.com/pymc-devs/pymc3/pull/4439)).
+- The `CAR` distribution has been added to allow for use of conditional autoregressions which often are used in spatial and network models.
+- ...
 
 ### Maintenance
-- We upgraded to `Theano-PyMC v1.1.2` which [includes bugfixes](https://github.com/pymc-devs/aesara/compare/rel-1.1.0...rel-1.1.2) for warning floods and compiledir locking (see [#4444](https://github.com/pymc-devs/pymc3/pull/4444))
-- `Theano-PyMC v1.1.2` also fixed an important issue in `tt.switch` that affected the behavior of several PyMC distributions, including at least the `Bernoulli` and `TruncatedNormal` (see[#4448](https://github.com/pymc-devs/pymc3/pull/4448))
+- Remove float128 dtype support (see [#4514](https://github.com/pymc-devs/pymc3/pull/4514)).
+- Logp method of `Uniform` and `DiscreteUniform` no longer depends on `pymc3.distributions.dist_math.bound` for proper evaluation (see [#4541](https://github.com/pymc-devs/pymc3/pull/4541)).
+- ...
+
+## PyMC3 3.11.2 (14 March 2021)
+
+### New Features
++ `pm.math.cartesian` can now handle inputs that are themselves >1D (see [#4482](https://github.com/pymc-devs/pymc3/pull/4482)).
++ Statistics and plotting functions that were removed in `3.11.0` were brought back, albeit with deprecation warnings if an old naming scheme is used (see [#4536](https://github.com/pymc-devs/pymc3/pull/4536)). In order to future proof your code, rename these function calls:
+  + `pm.traceplot` → `pm.plot_trace`
+  + `pm.compareplot` → `pm.plot_compare` (here you might need to rename some columns in the input according to the [`arviz.plot_compare` documentation](https://arviz-devs.github.io/arviz/api/generated/arviz.plot_compare.html))
+  + `pm.autocorrplot` → `pm.plot_autocorr`
+  + `pm.forestplot` → `pm.plot_forest`
+  + `pm.kdeplot` → `pm.plot_kde`
+  + `pm.energyplot` → `pm.plot_energy`
+  + `pm.densityplot` → `pm.plot_density`
+  + `pm.pairplot` → `pm.plot_pair`
+
+### Maintenance
+- ⚠ Our memoization mechanism wasn't robust against hash collisions ([#4506](https://github.com/pymc-devs/pymc3/issues/4506)), sometimes resulting in incorrect values in, for example, posterior predictives. The `pymc3.memoize` module was removed and replaced with `cachetools`.  The `hashable` function and `WithMemoization` class were moved to `pymc3.util` (see [#4525](https://github.com/pymc-devs/pymc3/pull/4525)).
+- `pm.make_shared_replacements` now retains broadcasting information which fixes issues with Metropolis samplers (see [#4492](https://github.com/pymc-devs/pymc3/pull/4492)).
+
+**Release manager** for 3.11.2: Michael Osthege ([@michaelosthege](https://github.com/michaelosthege))
+
+## PyMC3 3.11.1 (12 February 2021)
+
+### New Features
+- Automatic imputations now also work with `ndarray` data, not just `pd.Series` or `pd.DataFrame` (see[#4439](https://github.com/pymc-devs/pymc3/pull/4439)).
+- `pymc3.sampling_jax.sample_numpyro_nuts` now returns samples from transformed random variables, rather than from the unconstrained representation (see [#4427](https://github.com/pymc-devs/pymc3/pull/4427)).
+
+### Maintenance
+- We upgraded to `Theano-PyMC v1.1.2` which [includes bugfixes](https://github.com/pymc-devs/aesara/compare/rel-1.1.0...rel-1.1.2) for...
+  - ⚠ a problem with `tt.switch` that affected the behavior of several distributions, including at least the following special cases (see [#4448](https://github.com/pymc-devs/pymc3/pull/4448))
+    1.  `Bernoulli` when all the observed values were the same (e.g., `[0, 0, 0, 0, 0]`).
+    2.  `TruncatedNormal` when `sigma` was constant and `mu` was being automatically broadcasted to match the shape of observations.
+  - Warning floods and compiledir locking (see [#4444](https://github.com/pymc-devs/pymc3/pull/4444))
 - `math.log1mexp_numpy` no longer raises RuntimeWarning when given very small inputs. These were commonly observed during NUTS sampling (see [#4428](https://github.com/pymc-devs/pymc3/pull/4428)).
 - `ScalarSharedVariable` can now be used as an input to other RVs directly (see [#4445](https://github.com/pymc-devs/pymc3/pull/4445)).
 - `pm.sample` and `pm.find_MAP` no longer change the `start` argument (see [#4458](https://github.com/pymc-devs/pymc3/pull/4458)).
 - Fixed `Dirichlet.logp` method to work with unit batch or event shapes (see [#4454](https://github.com/pymc-devs/pymc3/pull/4454)).
+- Bugfix in logp and logcdf methods of `Triangular` distribution (see [#4470](https://github.com/pymc-devs/pymc3/pull/4470)).
+
+**Release manager** for 3.11.1: Michael Osthege ([@michaelosthege](https://github.com/michaelosthege))
 
 ## PyMC3 3.11.0 (21 January 2021)
 
